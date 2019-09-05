@@ -1,9 +1,20 @@
-# Host Image 
+FROM node
+#Gets the docker image from dockerhub and installs the required linux/node files
 
-FROM ubuntu:18.04
+WORKDIR /usr/src/app
+#Sets the working directory on the container to /usr/src/app
 
-RUN apt update
+COPY package*.json ./
+#Copies package.json from local machine to container into the working dir
 
-COPY helloworld.sh /helloworld.sh
+RUN npm install
+#Installs all the required packages thar are defined in the package.json file.
 
-CMD ["/helloworld.sh"]
+COPY . .
+#Copies the rest of the files into the workdir
+
+EXPOSE 3000
+#Exposes the port 3000 to the localmachine
+
+CMD ["node", "app.js"]
+#This will run the app we created app.js on the container
